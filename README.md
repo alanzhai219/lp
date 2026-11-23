@@ -13,6 +13,23 @@ Floating-point sign/exponent/mantissa widths and their layout comments are
 maintained centrally in `inc/float_layout.hpp`; numeric headers include it
 through `detail.hpp`.
 
+The optional `inc_ext/mxfp4.hpp` provides `lp::mxfp4`, a 17-byte block of 32
+E2M1 values with one shared E8M0 scale. Add both `inc/` and `inc_ext/` to the
+include path. Construct a block from `std::array<float, 32>`, access decoded
+values with `operator[]` or `to_array()`, and use `scale_bits()`, `to_bits()`,
+and `from_bits()` for the scale byte and 16 packed bytes (even elements in
+the low nibble). The scale uses the block maximum's binary exponent minus 2;
+all-zero blocks use a scale of 1, and non-finite inputs produce a NaN block.
+
+The optional `inc_ext/mxfp8.hpp` provides `lp::mxfp8_e4m3` and
+`lp::mxfp8_e5m2` (aliases of `lp::mxfp8<FP8>`). Each block has 32 FP8 bytes
+and one shared E8M0 scale byte, for 33 bytes total. The interface matches
+`mxfp4`: construct from `std::array<float, 32>`, use `operator[]` or
+`to_array()` to decode, and `scale_bits()`, `to_bits()` and `from_bits()`
+for the raw encoding. Scaling uses the block maximum's binary exponent minus
+8 for E4M3 or 15 for E5M2; overflow in an FP8 element saturates to its
+largest finite value. As with MXFP4, non-finite inputs produce a NaN block.
+
 Run the standalone smoke test with a C++17 compiler and the `inc/` include
 directory. OpenVINO's attribute serialization adapters are intentionally not
 part of this independent API.

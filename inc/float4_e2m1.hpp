@@ -4,8 +4,16 @@
 
 #include "detail.hpp"
 
+#include <array>
+
 namespace lp {
 namespace detail {
+// Indexed by the complete E2M1 encoding, including sign and negative zero.
+inline constexpr std::array<float, 16> e2m1_values = {
+	0.0f, 0.5f, 1.0f, 1.5f, 2.0f, 3.0f, 4.0f, 6.0f,
+	-0.0f, -0.5f, -1.0f, -1.5f, -2.0f, -3.0f, -4.0f, -6.0f
+};
+
 inline uint8_t f32_to_e2m1_u8_bits(float value) noexcept {
 	using format = layout::f4e2m1;
 	// These thresholds select the nearest exponent/mantissa encoding.
@@ -61,10 +69,8 @@ public:
 
 	operator float() const noexcept {
 		using format = detail::layout::f4e2m1;
-		// Index by all four encoded bits, including the sign (and negative zero).
-		static constexpr float values[] = {0.0f, 0.5f, 1.0f, 1.5f, 2.0f, 3.0f, 4.0f, 6.0f,
-		                                   -0.0f, -0.5f, -1.0f, -1.5f, -2.0f, -3.0f, -4.0f, -6.0f};
-		return values[value_ & ((1u << (format::sign_bits + format::exponent_bits + format::mantissa_bits)) - 1)];
+		const uint8_t mask = (1u << (format::sign_bits + format::exponent_bits + format::mantissa_bits)) - 1;
+		return detail::e2m1_values[value_ & mask];
 	}
 
 private:
