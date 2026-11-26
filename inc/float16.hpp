@@ -1,9 +1,3 @@
-// Copyright (C) 2018-2026 Intel Corporation
-// SPDX-License-Identifier: Apache-2.0
-// Contains conversion logic derived from TensorFlow's float16 implementation.
-// Copyright 2016 The TensorFlow Authors. All Rights Reserved.
-// Licensed under the Apache License, Version 2.0; see
-// https://www.apache.org/licenses/LICENSE-2.0
 #pragma once
 
 #include "detail.hpp"

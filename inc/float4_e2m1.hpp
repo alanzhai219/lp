@@ -1,5 +1,3 @@
-// Copyright (C) 2018-2026 Intel Corporation
-// SPDX-License-Identifier: Apache-2.0
 #pragma once
 
 #include "detail.hpp"
@@ -29,7 +27,7 @@ inline uint8_t f32_to_e2m1_u8_bits(float value) noexcept {
 	if (magnitude > 1.25f) {
 		result = 3;
 	}
-	if (magnitude >= 1.75f) {
+	if (magnitude >= 1.75f)	{
 		result = 4;
 	}
 	if (magnitude > 2.5f) {

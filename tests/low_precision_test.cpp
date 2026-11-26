@@ -1,5 +1,3 @@
-// Copyright (C) 2018-2026 Intel Corporation
-// SPDX-License-Identifier: Apache-2.0
 #include "bfloat16.hpp"
 #include "element_type_traits.hpp"
 #include "float16.hpp"
